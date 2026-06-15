@@ -1,0 +1,55 @@
+html,
+body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+
+body{
+  background:#e5e5e5;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+.iphone-wrapper{
+  width:100vw;
+  height:100vh;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  overflow:hidden;
+}
+
+.iphone-view{
+
+  width:390px;
+  height:844px;
+
+  scale:0.75;
+
+  background:#181414;
+
+  border-radius:50px;
+
+  overflow:hidden;
+
+  position:relative;
+
+  box-shadow:
+  0 25px 70px rgba(0,0,0,.25);
+}
+
+#canvas-container{
+  width:100%;
+  height:100%;
+}
+
+canvas{
+  display:block;
+}
