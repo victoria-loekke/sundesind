@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Hvordan har vi det egentlig?</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html,
+body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:#353635;
+  font-family:Arial,sans-serif;
+}
+
+canvas{
+  display:block;
+}
+
+#controls{
+
+  position:fixed;
+
+  bottom:20px;
+  left:50%;
+
+  transform:translateX(-50%);
+
+  display:flex;
+  gap:10px;
+
+  z-index:999;
+}
+
+button{
+
+  background:rgba(255,255,255,.1);
+
+  border:none;
+
+  color:white;
+
+  padding:10px 14px;
+
+  border-radius:999px;
+
+  cursor:pointer;
+}
+
+button:hover{
+  background:rgba(255,255,255,.2);
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="controls">
+
+<button onclick="setStage(100)">Live nu</button>
+
+<button onclick="setStage(500)">Efter 1 uge</button>
+
+<button onclick="setStage(1000)">Efter 2 uger</button>
+
+<button onclick="setStage(2500)">Efter 1 måned</button>
+
+<button onclick="setLayout('VERTICAL')">Skærm</button>
+<button onclick="setLayout('LANDSCAPE')">Landskab</button>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+<script src="display.js"></script>
+
+</body>
+</html>

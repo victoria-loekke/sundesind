@@ -1,30 +1,59 @@
 <!DOCTYPE html>
 <html lang="da">
-
 <head>
-  <meta charset="UTF-8">
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
-  <title>Det Okay Sammen</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
-</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Fællesfølt</title>
+
+<style>
+
+body{
+  margin:0;
+  background:#1e1e1e;
+  color:white;
+  font-family: agrandir,sans-serif;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  height:100vh;
+}
+
+.menu{
+  text-align:center;
+}
+
+button{
+  padding:20px 40px;
+  margin:10px;
+
+  border:none;
+  border-radius:12px;
+
+  font-size:20px;
+  cursor:pointer;
+}
+
+</style>
+
+</head>
 <body>
 
-  <div class="iphone-wrapper">
+<div class="menu">
 
-    <div class="iphone-view">
+<h1>Fællesfølt</h1>
 
-      <div id="canvas-container"></div>
+<button onclick="window.location='mobile.html'">
+Mobiloplevelse
+</button>
 
-    </div>
+<button onclick="window.location='display.html'">
+Installation
+</button>
 
-  </div>
-
-  <script src="sketch.js"></script>
+</div>
 
 </body>
-
 </html>

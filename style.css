@@ -1,55 +1,98 @@
+@font-face {
+  font-family: "Agrandir";
+  src: url("./fonts/Agrandir-WideBlackItalic") format("opentype");
+}
+
+@font-face {
+  font-family: "Vag";
+  src: url("./fonts/VAG Rounded Bold_0.ttf") format("opentype");
+}
+
+@font-face {
+  font-family: "A-tight";
+  src: url("./fonts/Agrandir-Tight.otf") format("opentype");
+}
+
 html,
-body{
-  width:100%;
-  height:100%;
-  overflow:hidden;
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
-body{
-  background:#e5e5e5;
+body {
+  background: #e5e5e5;
 
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  font-family:Arial, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-.iphone-wrapper{
-  width:100vw;
-  height:100vh;
+.iphone-wrapper {
+  width: 100vw;
+  height: 100vh;
 
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  overflow:hidden;
+  overflow: hidden;
 }
 
-.iphone-view{
+.iphone-view {
+  width: 390px;
+  height: 844px;
 
-  width:390px;
-  height:844px;
+  background: #181414;
 
-  scale:0.75;
+  border-radius: 50px;
 
-  background:#181414;
+  overflow: hidden;
 
-  border-radius:50px;
+  position: relative;
 
-  overflow:hidden;
-
-  position:relative;
-
-  box-shadow:
-  0 25px 70px rgba(0,0,0,.25);
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.25);
 }
 
-#canvas-container{
-  width:100%;
-  height:100%;
+#canvas-container {
+  width: 100%;
+  height: 100%;
 }
 
-canvas{
-  display:block;
+canvas {
+  display: block;
+}
+
+.display-btn {
+
+  position: fixed;
+
+  bottom: 20px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  background: black;
+
+  backdrop-filter: blur(10px);
+
+  color: white;
+
+  border: none;
+  border-radius: 999px;
+
+  padding: 10px 20px;
+
+  font-size: 14px;
+  text-decoration: none;
+
+  cursor: pointer;
+
+  z-index: 9999;
+}
+
+.display-btn:hover {
+  background: rgba(255,255,255,.2);
 }
