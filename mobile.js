@@ -26,6 +26,9 @@ let selectedIdxs = [];
 let transitionT = 0;
 let origPos = {};
 
+let messageTimer = 0;
+let messageAlpha = 255;
+
 let pTimer = 0;
 let particleDelay = 0;
 
@@ -77,26 +80,21 @@ function draw() {
 
   let t = frameCount * 0.018;
 
-if (state === "INTRO") {
+  if (state === "INTRO") {
+    drawTitle(255);
 
-  drawTitle(255);
+    circles.forEach((c, i) => {
+      drawCircle(c, t);
 
-  circles.forEach((c, i) => {
+      if (selectedIdxs.includes(i)) {
+        drawSelectedRing(c);
+      }
+    });
 
-    drawCircle(c, t);
-
-    if (selectedIdxs.includes(i)) {
-      drawSelectedRing(c);
+    if (selectedIdxs.length > 0) {
+      drawContinueButton();
     }
-
-  });
-
-  if (selectedIdxs.length > 0) {
-    drawContinueButton();
-  }
-}
-
-  else if (state === "TRANSITIONING") {
+  } else if (state === "TRANSITIONING") {
     transitionT = min(transitionT + 0.022, 1);
     let ease = easeIO(transitionT);
 
@@ -124,11 +122,57 @@ if (state === "INTRO") {
     });
 
     if (transitionT >= 1) {
-      state = "PARTICLES";
+      state = "MESSAGE";
+
+      messageTimer = 0;
     }
+  } else if (state === "MESSAGE") {
+
+  messageTimer++;
+
+  // tegn de valgte følelser
+
+  for (let idx of selectedIdxs) {
+    drawCircle(circles[idx], t);
   }
 
-  else if (state === "PARTICLES") {
+  // fade tekst ud efter lidt tid
+
+  if (messageTimer > 200) {
+    messageAlpha -= 3;
+  }
+
+  fill(255, messageAlpha);
+
+  textAlign(CENTER, CENTER);
+
+  textFont(agrandir);
+  textSize(24);
+
+  text(
+    "TAK FOR DIT BIDRAG",
+    w / 2,
+    240
+  );
+
+  textFont(atight);
+  textSize(18);
+  textLeading(23);
+
+  text(
+    "Dine følelser er nu blevet en del af Fællesfølt.\nSammen med tusindvis af andre bidrag\ner du med til at synliggøre, at ingen står alene.",
+    w / 2,
+    310
+  );
+
+  if (messageAlpha <= 0) {
+
+    state = "PARTICLES";
+
+    particleDelay = 0;
+    pTimer = 0;
+  }
+} else if (state === "PARTICLES") {
     particleDelay++;
 
     for (let idx of selectedIdxs) {
@@ -187,19 +231,12 @@ function drawHeadspace() {
 }
 
 function drawContinueButton() {
-
   rectMode(CENTER);
 
   fill(255);
   noStroke();
 
-  rect(
-    w / 2,
-    743,
-    130,
-    33,
-    23
-  );
+  rect(w / 2, 743, 130, 33, 23);
 
   fill(30);
 
@@ -207,11 +244,7 @@ function drawContinueButton() {
   textFont(atight);
   textSize(14);
 
-  text(
-    "FORTSÆT",
-    w / 2,
-    742
-  );
+  text("FORTSÆT", w / 2, 742);
 }
 
 function drawSelectedRing(c) {
@@ -232,13 +265,9 @@ function drawCircle(c, t) {
 
   let bt = t + c.blobOff;
 
-  let wobbleX =
-    cos(bt * 1.3) * r * 0.08 +
-    sin(bt * 2.1) * r * 0.05;
+  let wobbleX = cos(bt * 1.3) * r * 0.08 + sin(bt * 2.1) * r * 0.05;
 
-  let wobbleY =
-    sin(bt * 1.7) * r * 0.08 +
-    cos(bt * 2.5) * r * 0.05;
+  let wobbleY = sin(bt * 1.7) * r * 0.08 + cos(bt * 2.5) * r * 0.05;
 
   let offX = cos(bt * 0.35) * r * 0.6 + wobbleX;
   let offY = sin(bt * 0.45) * r * 0.6 + wobbleY;
@@ -252,23 +281,16 @@ function drawCircle(c, t) {
   ctx.arc(c.x, c.y, r, 0, Math.PI * 2);
   ctx.clip();
 
-  let g = ctx.createRadialGradient(
-    c.x + offX,
-    c.y + offY,
-    0,
-    c.x,
-    c.y,
-    r
-  );
+  let g = ctx.createRadialGradient(c.x + offX, c.y + offY, 0, c.x, c.y, r);
 
   g.addColorStop(
     0,
-    `rgb(${c.feeling.c1[0]},${c.feeling.c1[1]},${c.feeling.c1[2]})`
+    `rgb(${c.feeling.c1[0]},${c.feeling.c1[1]},${c.feeling.c1[2]})`,
   );
 
   g.addColorStop(
     1,
-    `rgb(${c.feeling.c2[0]},${c.feeling.c2[1]},${c.feeling.c2[2]})`
+    `rgb(${c.feeling.c2[0]},${c.feeling.c2[1]},${c.feeling.c2[2]})`,
   );
 
   ctx.fillStyle = g;
@@ -290,7 +312,6 @@ function drawCircle(c, t) {
 }
 
 function spawnParticle() {
-
   let f = random(feelings);
 
   particles.push({
@@ -344,23 +365,16 @@ function drawParticles(t) {
     ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
     ctx.clip();
 
-    let g = ctx.createRadialGradient(
-      p.x + offX,
-      p.y + offY,
-      0,
-      p.x,
-      p.y,
-      r
-    );
+    let g = ctx.createRadialGradient(p.x + offX, p.y + offY, 0, p.x, p.y, r);
 
     g.addColorStop(
       0,
-      `rgb(${p.feeling.c1[0]},${p.feeling.c1[1]},${p.feeling.c1[2]})`
+      `rgb(${p.feeling.c1[0]},${p.feeling.c1[1]},${p.feeling.c1[2]})`,
     );
 
     g.addColorStop(
       1,
-      `rgb(${p.feeling.c2[0]},${p.feeling.c2[1]},${p.feeling.c2[2]})`
+      `rgb(${p.feeling.c2[0]},${p.feeling.c2[1]},${p.feeling.c2[2]})`,
     );
 
     ctx.fillStyle = g;
@@ -371,39 +385,27 @@ function drawParticles(t) {
 }
 
 function easeIO(t) {
-  return t < 0.5
-    ? 2 * t * t
-    : -1 + (4 - 2 * t) * t;
+  return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 }
 function selectCircle(mx, my) {
-
   if (state !== "INTRO") return;
 
   // klik på følelser
 
   for (let i = 0; i < circles.length; i++) {
-
     let c = circles[i];
 
     if (dist(mx, my, c.x, c.y) < c.r * 1.2) {
-
       if (selectedIdxs.includes(i)) {
-
-        selectedIdxs =
-          selectedIdxs.filter(
-            idx => idx !== i
-          );
-
+        selectedIdxs = selectedIdxs.filter((idx) => idx !== i);
       } else {
-
         if (selectedIdxs.length < 3) {
-
           selectedIdxs.push(i);
 
           origPos[i] = {
             x: c.x,
             y: c.y,
-            r: c.r
+            r: c.r,
           };
         }
       }
@@ -416,12 +418,11 @@ function selectCircle(mx, my) {
 
   if (
     selectedIdxs.length > 0 &&
-    mx > w/2 - 75 &&
-    mx < w/2 + 75 &&
+    mx > w / 2 - 75 &&
+    mx < w / 2 + 75 &&
     my > 717 &&
     my < 763
   ) {
-
     transitionT = 0;
 
     pTimer = 0;
